@@ -20456,7 +20456,7 @@ const exec = (cmd, args = []) =>
       if (code !== 0 && !stdout.includes("nothing to commit")) {
         return reject(new Error(`Exit code: ${code}\n${stdout}`));
       }
-      return resolve(stdout);
+      return resolve({ code, stdout });
     });
 
     app.on("error", () => reject(new Error(`Exit code: ${code}\n${stderr}`)));
@@ -20485,7 +20485,7 @@ const commitFile = async (emptyCommit = false) => {
  * @returns {Promise<void>}
  * */
 const createEmptyCommit = async () => {
-  const { lastCommitDate } = await exec(
+  const { stdout: lastCommitDate } = await exec(
     "git",
     ["--no-pager", "log", "-1", "--format=%ct"],
     { encoding: "utf8", stdio: ["pipe", "pipe", "pipe"] },
@@ -20501,24 +20501,9 @@ const createEmptyCommit = async () => {
   if (diffInDays > 50) {
     core.info("Create empty commit to keep workflow active");
     await commitFile(true);
-<<<<<<< HEAD
-<<<<<<< HEAD
     return "Empty commit pushed";
   }
-
   return "No PullRequest/Issue/IssueComment/Release events found. Leaving README unchanged with previous activity";
-=======
-    tools.exit.success("Empty commit pushed");
-  }
-  tools.exit.success(
-    "No PullRequest/Issue/IssueComment/Release events found. Leaving README unchanged with previous activity",
-  );
->>>>>>> d8899a3 (optimize error handling)
-=======
-    return true;
-  }
-  return false;
->>>>>>> eeb86b6 (fix(github): updated script)
 };
 
 const serializers = {
@@ -20602,9 +20587,7 @@ Toolkit.run(
     );
 
     if (content.length == 0) {
-<<<<<<< HEAD
       tools.log.info("Found no activity.");
-<<<<<<< HEAD
 
       try {
         const message = await createEmptyCommit();
@@ -20612,19 +20595,6 @@ Toolkit.run(
       } catch (err) {
         return tools.exit.failure(err.message);
       }
-=======
-      await createEmptyCommit();
->>>>>>> d8899a3 (optimize error handling)
-=======
-      const success = await createEmptyCommit();
-      if (success) {
-        tools.log.info("Found no activity.");
-        tools.exit.success("Empty commit pushed");
-      }
-      tools.exit.success(
-        "No PullRequest/Issue/IssueComment/Release events found. Leaving README unchanged with previous activity",
-      );
->>>>>>> eeb86b6 (fix(github): updated script)
     }
 
     if (content.length < 5) {
