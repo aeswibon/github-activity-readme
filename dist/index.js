@@ -20498,7 +20498,7 @@ const createEmptyCommit = async () => {
   console.log("lastCommitDate", lastCommitDate)
   console.log("commitDate", commitDate)
   console.log("diffInDays", diffInDays)
-  if (diffInDays > 50) {
+  if (diffInDays > 2) {
     core.info("Create empty commit to keep workflow active");
     await commitFile(true);
     return "Empty commit pushed";
