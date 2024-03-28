@@ -20456,7 +20456,7 @@ const exec = (cmd, args = []) =>
       if (code !== 0 && !stdout.includes("nothing to commit")) {
         return reject(new Error(`Exit code: ${code}\n${stdout}`));
       }
-      return resolve({ code, stdout });
+      return resolve(stdout);
     });
 
     app.on("error", () => reject(new Error(`Exit code: ${code}\n${stderr}`)));
