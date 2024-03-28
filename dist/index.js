@@ -20495,9 +20495,13 @@ const createEmptyCommit = async () => {
   const diffInDays = Math.round(
     (new Date() - commitDate) / (1000 * 60 * 60 * 24),
   );
+  console.log("lastCommitDate", lastCommitDate)
+  console.log("commitDate", commitDate)
+  console.log("diffInDays", diffInDays)
   if (diffInDays > 50) {
     core.info("Create empty commit to keep workflow active");
     await commitFile(true);
+<<<<<<< HEAD
 <<<<<<< HEAD
     return "Empty commit pushed";
   }
@@ -20510,6 +20514,11 @@ const createEmptyCommit = async () => {
     "No PullRequest/Issue/IssueComment/Release events found. Leaving README unchanged with previous activity",
   );
 >>>>>>> d8899a3 (optimize error handling)
+=======
+    return true;
+  }
+  return false;
+>>>>>>> eeb86b6 (fix(github): updated script)
 };
 
 const serializers = {
@@ -20593,6 +20602,7 @@ Toolkit.run(
     );
 
     if (content.length == 0) {
+<<<<<<< HEAD
       tools.log.info("Found no activity.");
 <<<<<<< HEAD
 
@@ -20605,6 +20615,16 @@ Toolkit.run(
 =======
       await createEmptyCommit();
 >>>>>>> d8899a3 (optimize error handling)
+=======
+      const success = await createEmptyCommit();
+      if (success) {
+        tools.log.info("Found no activity.");
+        tools.exit.success("Empty commit pushed");
+      }
+      tools.exit.success(
+        "No PullRequest/Issue/IssueComment/Release events found. Leaving README unchanged with previous activity",
+      );
+>>>>>>> eeb86b6 (fix(github): updated script)
     }
 
     if (content.length < 5) {

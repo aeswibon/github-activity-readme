@@ -116,12 +116,14 @@ const createEmptyCommit = async () => {
   const diffInDays = Math.round(
     (new Date() - commitDate) / (1000 * 60 * 60 * 24),
   );
+  console.log("lastCommitDate", lastCommitDate)
+  console.log("commitDate", commitDate)
+  console.log("diffInDays", diffInDays)
   if (diffInDays > 50) {
     core.info("Create empty commit to keep workflow active");
     await commitFile(true);
     return "Empty commit pushed";
   }
-
   return "No PullRequest/Issue/IssueComment/Release events found. Leaving README unchanged with previous activity";
 };
 
