@@ -106,7 +106,7 @@ const commitFile = async (emptyCommit = false) => {
  * @returns {Promise<void>}
  * */
 const createEmptyCommit = async () => {
-  const { lastCommitDate } = await exec(
+  const lastCommitDate = await exec(
     "git",
     ["--no-pager", "log", "-1", "--format=%ct"],
     { encoding: "utf8", stdio: ["pipe", "pipe", "pipe"] },
